@@ -43,6 +43,9 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
       
+      - name: Debug Repository Name
+        run: echo "Repository ${{ github.repository }} "ref":"${{ github.ref_name }}""
+
       - name: Trigger CD Pipeline
         if: ${{ success() }}
         # curl makes a POST request to the GitHub Actions API
