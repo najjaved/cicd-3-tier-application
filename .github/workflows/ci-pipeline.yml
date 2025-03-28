@@ -63,9 +63,6 @@ jobs:
             --input - <<EOF
             {
               "ref": "main",
-              "inputs": {
-                "environment": "staging"
-              }
             }
           EOF
         env:
