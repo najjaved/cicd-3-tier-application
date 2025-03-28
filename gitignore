@@ -1,0 +1,21 @@
+*.docker
+**/docker-compose.override.yml
+**/docker-compose.override.yml
+**/docker-compose.debug.yml
+**/docker-compose.dev.yml
+.dockerignore
+
+
+# OS generated files #
+#######################
+.DS_Store
+Thumbs.db
+
+# .NET #
+########
+*.csproj.user
+bin/
+obj/
+publish/
+*.cache
+*.DotSettings
