@@ -45,14 +45,6 @@ jobs:
       
       - name: Debug Repository Name
         run: echo "Repository ${{ github.repository }}"
-      
-      - name: Check Workflows List
-        if: ${{ success() }}
-        run: |
-         curl -v -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/${{ github.repository }}/actions/workflows"
-
 
       - name: Trigger Another Workflow using gh API
         run: |
@@ -62,7 +54,7 @@ jobs:
             --header "Accept: application/vnd.github.v3+json" \
             --input - <<EOF
             {
-              "ref": "main",
+              "ref": "main"
             }
           EOF
         env:
