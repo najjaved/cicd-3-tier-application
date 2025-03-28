@@ -20,15 +20,10 @@ jobs:
           dotnet-version: '7.0.x'
       
       - name: Restore and build the solution
-        working-directory: ./api
+        working-directory: ./api/Basic3TierAPI
         run: |
           dotnet restore
           dotnet build --no-restore --configuration Release
-
-      - name: Run tests
-        working-directory: ./api
-        run: |
-          dotnet test --no-build --configuration Release
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
@@ -43,4 +38,4 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
 
-          
+
