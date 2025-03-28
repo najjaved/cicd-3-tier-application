@@ -45,12 +45,20 @@ jobs:
       
       - name: Debug Repository Name
         run: echo "Repository ${{ github.repository }}"
+      
+      - name: Check Workflows List
+        if: ${{ success() }}
+        run: |
+         curl -v -H "Authorization: Bearer ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "https://api.github.com/repos/najjaved/${{ github.repository }}/actions/workflows"
+
 
       - name: Trigger CD Pipeline
         if: ${{ success() }}
         # curl makes a POST request to the GitHub Actions API
         run: |
-          curl -X POST \
+          curl --http1.1 -v -X POST \
            -H "Accept: application/vnd.github.v3+json" \
            -H "Authorization: Bearer ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
            -H "Content-Type: application/json" \
