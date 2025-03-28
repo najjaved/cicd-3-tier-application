@@ -2,6 +2,11 @@ name: CD Pipeline
 
 on:
   workflow_dispatch: # allow manual triggering
+   inputs:
+    environment:
+      description: "Deployment Environment"
+      required: true
+      default: "staging"
 
 jobs:
   deploy:
@@ -9,6 +14,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      
+      - name: Deploy to environment
+        run: echo "Deploying to ${{ github.event.inputs.environment }}"
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
