@@ -1,3 +1,4 @@
+## Running via Docker locally
 1. Creating a network:
 
 ```bash
