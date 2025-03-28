@@ -42,3 +42,5 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
+
+          

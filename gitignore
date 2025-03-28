@@ -1,8 +1,4 @@
 *.docker
-**/docker-compose.override.yml
-**/docker-compose.override.yml
-**/docker-compose.debug.yml
-**/docker-compose.dev.yml
 .dockerignore
 
 
@@ -13,7 +9,6 @@ Thumbs.db
 
 # .NET #
 ########
-*.csproj.user
 bin/
 obj/
 publish/
