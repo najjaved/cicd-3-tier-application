@@ -1,4 +1,4 @@
-name: CD Pipeline Test
+name: CD Pipeline
 
 on:
   workflow_dispatch:
