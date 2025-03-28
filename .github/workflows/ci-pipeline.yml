@@ -20,11 +20,13 @@ jobs:
           dotnet-version: '7.0.x'
       
       - name: Restore and build the solution
+        working-directory: ./api
         run: |
           dotnet restore
           dotnet build --no-restore --configuration Release
 
       - name: Run tests
+        working-directory: ./api
         run: |
           dotnet test --no-build --configuration Release
 
