@@ -63,7 +63,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data '{"ref":"main"}' \
-            https://api.github.com/repos/najjaved/${{ github.repository }}/actions/workflows/cd-pipeline.yml/dispatches
+            https://api.github.com/repos/najjaved/cicd-3-tier-application/actions/workflows/cd-pipeline.yml/dispatches
     
     
 
