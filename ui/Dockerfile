@@ -1,3 +1,4 @@
+# Generate docker image for frontend
 # Use an official Nginx runtime as the base image
 FROM nginx:alpine
 
