@@ -1,0 +1,51 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types: ["completed"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+            ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}
+
+      - name: Deploy Docker containers on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
+            # Pull latest images
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
+
+            # Create a Docker network
+            sudo docker network create my3tier || true
+
+            # Run Postgres
+            sudo docker rm -f my3tier-db || true
+            sudo docker run -d --network my3tier --name my3tier-db \
+              -e POSTGRES_USER=postgres \
+              -e POSTGRES_PASSWORD=admin123 \
+              -e POSTGRES_DB=basic3tier \
+              -p 5432:5432 \
+              postgres
+
+            # Run the API
+            sudo docker rm -f my3tier-api || true
+            sudo docker run -d --network my3tier --name my3tier-api \
+              -p 5000:80 \
+              -e ConnectionStrings__Basic3Tier=\"Host=my3tier-db;Port=5432;Database=basic3tier;Username=postgres;Password=admin123\" \
+              ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
+
+            # Run the UI
+            sudo docker rm -f my3tier-ui || true
+            sudo docker run -d --network my3tier --name my3tier-ui \
+              -p 80:80 -e API_URL="http://${{ secrets.EC2_HOST }}:5000/" \
+              ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui:latest
+          "
