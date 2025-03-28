@@ -25,6 +25,11 @@ jobs:
           dotnet restore
           dotnet build --no-restore --configuration Release
 
+      #- name: Run tests (Basic3TierAPI.Tests is empty)
+      #  working-directory: ./api/Tests
+      #  run: |
+      #    dotnet test --no-build --configuration Release
+
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
