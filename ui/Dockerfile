@@ -2,11 +2,21 @@
 # Use an official Nginx runtime as the base image
 FROM nginx:alpine
 
-# Copy your frontend files (HTML, JavaScript, CSS, etc.) to the default Nginx web root directory
-COPY . /usr/share/nginx/html
+# We'll need 'sed' for the runtime substitution
+RUN apk add --no-cache bash
+
+# Set container's work directory to the default Nginx web root directory
+WORKDIR /usr/share/nginx/html
+
+# Copy all frontend files (HTML, JavaScript, CSS, etc.)
+COPY . .
+
+# Copy an entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Expose port 80, which Nginx will listen on
 EXPOSE 80
-
+ENTRYPOINT ["/entrypoint.sh"]
 # Start Nginx when the container is run
 CMD ["nginx", "-g", "daemon off;"]
