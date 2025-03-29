@@ -42,7 +42,7 @@ jobs:
               -e ConnectionStrings__Basic3Tier=\"Host=my3tier-db;Port=5432;Database=basic3tier;Username=postgres;Password=admin123\" \
               ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api:latest
 
-            # Run the UI
+            # Run the UI Container by passing an API_URL environment variable to point the UI to the API endpoint on http://[EC2_HOST]:5000.
             sudo docker rm -f my3tier-ui || true
             sudo docker run -d --network my3tier --name my3tier-ui \
               -p 80:80 -e API_URL="http://${{ secrets.EC2_HOST }}:5000/" \

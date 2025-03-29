@@ -1,5 +1,6 @@
 # Generate docker image for frontend
-# Use an official Nginx runtime as the base image
+# Use an official Nginx runtime as the base image for static file hosting
+# and an entrypoint script to dynamically replace the API URL in config.json at runtime.
 FROM nginx:alpine
 
 # We'll need 'sed' for the runtime substitution
